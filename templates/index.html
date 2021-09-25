@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{%  block head %}
+{% endblock %}
+
+{% block content %}
+<h3>Список работников, находящихся в зоне риска увольнения
+</h3>
+<p>
+<table>
+{% for row in table %}
+    <tr>
+        <td>{{ row[0] }}</td>
+        <td>{{ row[1] }}</td>
+        <td>{{ row[2] }}</td>
+        <td>{{ row[3] }}</td>
+
+        {% if row[-2] != 0 %}
+            <td>{{ row[4] }}</td>
+        {% else %}
+            <td style="color : red;">{{ row[4] }}</td>
+        {% endif %}
+
+        {% if row[-3] != 0 %}
+            <td>{{ row[5] }}</td>
+        {% else %}
+            <td style="color : red;">{{ row[5] }}</td>
+        {% endif %}
+
+        {% if row[-1] != 0 %}
+            <td>{{ row[6] }}</td>
+        {% else %}
+            <td style="color : red;">{{ row[6] }}</td>
+        {% endif %}
+
+    </tr>
+{% endfor %}
+
+</table></p>
+
+<p>Текст с объяснением смысла таблицы</p>
+
+{% endblock %}

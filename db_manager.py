@@ -60,7 +60,7 @@ def connect(
         "{name}", "{sex}", "{departament}", "{chief}", "{age}", "{hire_date}", "{payment}"
         )
     """
-    if True:
+
     cursor.execute(sql_command)
     connection.commit()
     return True

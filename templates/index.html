@@ -1,41 +1,62 @@
+    <!-- {% for element in row %}
+        {% if loop.index < row|length %}
+        <td>{{ element }}</td>
+        {% else %}
+        <td style="color : red;">{{ element }}</td>
+        {% endif %}
+        
+    {% endfor %} -->
 {% extends 'base.html' %}
 {%  block head %}
 {% endblock %}
 
 {% block content %}
-<h3>Список работников, находящихся в зоне риска увольнения
-</h3>
-<p>
-<table>
-{% for row in table %}
-    <tr>
-        <td>{{ row[0] }}</td>
-        <td>{{ row[1] }}</td>
-        <td>{{ row[2] }}</td>
-        <td>{{ row[3] }}</td>
 
-        {% if row[-2] != 0 %}
-            <td>{{ row[4] }}</td>
-        {% else %}
-            <td style="color : red;">{{ row[4] }}</td>
+<div class="table-container">
+    <h3>Список работников, находящихся в зоне риска увольнения</h3>
+    <table class="styled-table">
+    {% for row in table %}
+        {% if loop.index == 1 %}
+            <thead>
+        {% elif loop.index == 2 %}
+            </thead>    
+            <tbody>
         {% endif %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
 
-        {% if row[-3] != 0 %}
-            <td>{{ row[5] }}</td>
-        {% else %}
-            <td style="color : red;">{{ row[5] }}</td>
-        {% endif %}
+            {% if row[-2] != 0 %}
+                <td>{{ row[4] }}</td>
+            {% else %}
+                <td style="color : rgba(255, 119, 115);">{{ row[4] }}</td>
+            {% endif %}
 
-        {% if row[-1] != 0 %}
-            <td>{{ row[6] }}</td>
-        {% else %}
-            <td style="color : red;">{{ row[6] }}</td>
-        {% endif %}
+            {% if row[-3] != 0 %}
+                <td>{{ row[5] }}</td>
+            {% else %}
+                <td style="color : rgba(255, 119, 115);">{{ row[5] }}</td>
+            {% endif %}
 
-    </tr>
-{% endfor %}
+            {% if row[-1] != 0 %}
+                <td>{{ row[6] }}</td>
+            {% else %}
+                <td style="color : rgba(255, 119, 115);">{{ row[6] }}</td>
+            {% endif %}
+        </tr>
+        
+        </tbody>
+    {% endfor %}
 
-</table></p>
+    </table>
+</div>
+<div class='images'>
+    <img src="{{ piechart1_src }}">
+    <img src="{{ piechart2_src }}">
+</div>
+
 
 <p>Текст с объяснением смысла таблицы</p>
 

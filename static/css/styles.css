@@ -1,18 +1,6 @@
 html, body {
-    color: #114b5f;
+    
 }
-
-/*table {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px;
-    border-collapse: collapse;
-    width: 100%;   
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    border: 1px solid #ddd;
-    padding: 8px;
-}*/
 
 p {
     margin-bottom: 20px;
@@ -25,6 +13,19 @@ p {
     text-align: center;
 }
 
+.images figcaption{
+    display:inline-block;
+    font-size: 18px;
+    max-width: 30%;
+    text-align: center;
+    margin: auto;
+
+}
+
+figure{
+    margin-bottom: 0px;
+}
+
 img {
     max-width: 45%;
 }
@@ -34,7 +35,7 @@ img {
     margin: 25px 0;
     font-size: 0.9em;
     font-family: sans-serif;
-    min-width: 400px;
+    min-width: 600px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
     margin: auto;
     text-align: center;
@@ -42,7 +43,6 @@ img {
 
 .styled-table thead tr {
     background-color: #b9f2f0;
-    /*color: #ffffff;*/
     color: black;
     text-align: left;
 }
@@ -70,15 +70,12 @@ img {
 }
 
 .table-container{
-    /*max-width: 80%;*/
-
     padding-top: 10%;
-
-
 }
 
 .table-container h3{
     text-align: center;
+    margin-bottom: 27px;
     font-size: 27px;
 
 }
@@ -87,13 +84,13 @@ img {
     padding-left: 5%;
     padding-right: 5%;
     max-width: 950px;
-    /*text-align: center;*/
     margin: auto;
 }
 
-.container_base p{
+
+.table-subscription{
+    padding-top: 20px;
     max-width: 80%;
     margin: auto;
-    /*padding-left: */
 }
-/*#b9f2f0*/
+

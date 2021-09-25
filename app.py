@@ -28,8 +28,8 @@ templates = Jinja2Templates(directory="templates")
     #     'Отдел',
     #     'Начальник',
     #     'Возраст',
-    #     'Прием',
-    #     'Оплата',
+    #     'Стаж ⇵',
+    #     'Оплата ⇵',
     #     'Срок работы',
     #     'Оценка стажа',
     #     'Оценка возраста',
@@ -78,10 +78,10 @@ async def get_risk_zone_guys():
         'Имя',
         'Пол',
         'Отдел',
-        'Начальник',
-        'Возраст',
-        'Прием',
-        'Оплата',
+        'Начальник ⇵',
+        'Возраст ⇵',
+        'Стаж с ⇵',
+        'Оплата ⇵',
         'Срок работы',
         'Оценка стажа',
         'Оценка возраста',
@@ -97,20 +97,20 @@ async def get_risk_zone_guys():
         columns=columns[:-4]
         )
 
-    base_data['Прием'] = pd.to_datetime(base_data['Прием'], format='%d.%m.%Y', errors='coerce')
+    base_data['Стаж ⇵'] = pd.to_datetime(base_data['Стаж ⇵'], format='%d.%m.%Y', errors='coerce')
     base_data.dropna(inplace=True)
     count_of_employeed = base_data.shape[0]
-    base_data['Стаж, дни'] = (pd.Timestamp.now() - base_data['Прием']).apply(lambda x : x.days)
+    base_data['Стаж, дни'] = (pd.Timestamp.now() - base_data['Стаж ⇵']).apply(lambda x : x.days)
 
-    base_data['Прием'] = base_data['Прием'].apply(lambda x : str(x)[:-9])
+    base_data['Стаж ⇵'] = base_data['Стаж ⇵'].apply(lambda x : str(x)[:-9])
 
     std_stage_dict = dict((base_data[['Отдел', 'Стаж, дни']].groupby('Отдел').agg('mean') - base_data[['Отдел', 'Стаж, дни']].groupby('Отдел').agg(np.std)).to_records())
-    std_age_dict = dict((base_data[['Отдел', 'Возраст']].groupby('Отдел').agg('mean') - base_data[['Отдел', 'Возраст']].groupby('Отдел').agg(np.std)).to_records())
-    std_salary_dict = dict((base_data[['Отдел', 'Оплата']].groupby('Отдел').agg('mean') - base_data[['Отдел', 'Оплата']].groupby('Отдел').agg(np.std)).to_records())
+    std_age_dict = dict((base_data[['Отдел', 'Возраст ⇵']].groupby('Отдел').agg('mean') - base_data[['Отдел', 'Возраст ⇵']].groupby('Отдел').agg(np.std)).to_records())
+    std_salary_dict = dict((base_data[['Отдел', 'Оплата ⇵']].groupby('Отдел').agg('mean') - base_data[['Отдел', 'Оплата ⇵']].groupby('Отдел').agg(np.std)).to_records())
 
     base_data = base_data.join(pd.DataFrame(base_data[['Отдел', 'Стаж, дни']].apply(lambda x : 1 if x[1] >= std_stage_dict[x[0]] else 0, axis=1), columns=['Оценка стажа']))
-    base_data = base_data.join(pd.DataFrame(base_data[['Отдел', 'Возраст']].apply(lambda x : 1 if x[1] >= std_age_dict[x[0]] else 0, axis=1), columns=['Оценка возраста']))
-    base_data = base_data.join(pd.DataFrame(base_data[['Отдел', 'Оплата']].apply(lambda x : 1 if x[1] >= std_salary_dict[x[0]] else 0, axis=1), columns=['Оценка зарплаты']))
+    base_data = base_data.join(pd.DataFrame(base_data[['Отдел', 'Возраст ⇵']].apply(lambda x : 1 if x[1] >= std_age_dict[x[0]] else 0, axis=1), columns=['Оценка возраста']))
+    base_data = base_data.join(pd.DataFrame(base_data[['Отдел', 'Оплата ⇵']].apply(lambda x : 1 if x[1] >= std_salary_dict[x[0]] else 0, axis=1), columns=['Оценка зарплаты']))
 
     base_data = base_data[base_data[['Оценка стажа', 'Оценка возраста', 'Оценка зарплаты']].apply(lambda x : True if sum(x) < 2 else False, axis=1)]
 

@@ -51,19 +51,22 @@ def connect(
 
     return conn
 
+
     def add_employee(
     connection, cursor, name, sex, departament, chief, age, hire_date, payment):
     
-    sql_command = f"""INSERT INTO employee (name, sex, departament, chief, age, hire_date, payment)
-        VALUES 
-        (
-        "{name}", "{sex}", "{departament}", "{chief}", "{age}", "{hire_date}", "{payment}"
-        )
-    """
-
-    cursor.execute(sql_command)
-    connection.commit()
-    return True
-
+        sql_command = f"""INSERT INTO employee (name, sex, departament, chief, age, hire_date, payment)
+            VALUES 
+            (
+            "{name}", "{sex}", "{departament}", "{chief}", "{age}", "{hire_date}", "{payment}"
+            )
+        """
+    #     try:
+        if True:
+            cursor.execute(sql_command)
+            connection.commit()
+            return True
+    #     except Exception as e:
+    #         return False
 
 connection = connect()

@@ -1,5 +1,4 @@
 import uvicorn
-
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -7,16 +6,14 @@ from fastapi import FastAPI, Request, Response
 
 import pandas as pd
 import numpy as np
-
 import matplotlib.pyplot as plt
 import seaborn as sns
-
 import base64
 from io import BytesIO
 
 import db_manager as db
-cursor = db.connection.cursor()
 
+cursor = db.connection.cursor()
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -50,7 +47,6 @@ async def make_piechart_2(data):
         autopct='%.0f%%',
         textprops={'Fontsize' : 13}
     )
-
     plt.savefig(buff)
     plt.close()
 
@@ -72,9 +68,7 @@ async def get_risk_zone_guys():
         )
 
     sql_str = 'select name, sex, departament, chief, age, hire_date, payment from employee where finish_date != "None"'
-
-
-
+    
     base_data = pd.DataFrame(
         cursor.execute(sql_str).fetchall(), 
         columns=columns[:-4]
@@ -100,20 +94,16 @@ async def get_risk_zone_guys():
     base_data.sort_values(['Оценка зарплаты', 'Оценка стажа', 'Оценка возраста'], inplace=True, ascending=True)
     count_of_quitting = base_data.shape[0]
     base_data = base_data.to_records(index=False)
-
+    
     return (columns, *base_data), count_of_employeed, count_of_quitting, base_data[['Оценка зарплаты', 'Оценка стажа', 'Оценка возраста']]
+
 
 @app.get('/')
 async def main(request : Request):
     risk_zone_guys, count_of_employeed, count_of_quitting, problems_data = await get_risk_zone_guys()
-    # print('===========')
-    # print(np.array(problems_data).values.sum(axis=0))
     problems_data = np.array([[int(el) for el in row] for row in problems_data]).sum(axis=0)
-    # print(problems_data)
-    # exit()
     piechart2_src = await make_piechart_2(problems_data)
     piechart1_src = await make_piechart_1(count_of_employeed, count_of_quitting)
-    
     
 
     return templates.TemplateResponse("index.html", 
@@ -128,6 +118,5 @@ async def main(request : Request):
 uvicorn.run(
     app, 
     port=8000, 
-    host='0.0.0.0',
-
+    host='0.0.0.0'
     )

@@ -22,23 +22,6 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-    # columns_names = (
-    #     'Имя',
-    #     'Пол'
-    #     'Отдел',
-    #     'Начальник',
-    #     'Возраст',
-    #     'Стаж ⇵',
-    #     'Оплата ⇵',
-    #     'Срок работы',
-    #     'Оценка стажа',
-    #     'Оценка возраста',
-    #     'Оценка зарплаты'
-    #     )
-    # sql_str = "select name, sex, departament, chief, age, hire_date, payment from employee"
-    # df = pd.DataFrame()
-
-
 async def make_piechart_1(count_of_employeed, count_of_quitting):
     buff = BytesIO()
     labels = ['Нормальное\nсостояние', 'Высокий риск\nувольнения', ]
